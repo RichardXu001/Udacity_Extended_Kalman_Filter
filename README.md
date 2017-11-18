@@ -153,6 +153,14 @@ I have finished the code as the process below.
 I just as the course required.
 
 
+##Update
+I made 4 update in kalman_filter.cpp as code reviews requires:
+1. in line73,I change use atan2(py,px) function instead of atan(py/px) to calculate the phi_, which is much accurate and convenient.
+2. in line113, when the rho_ is too small, as the code review suggests, I set the rho_dot_ to zero, which might not cause big varience.
+3. in line139-144, I add some evaluate of the y(1) to make sure the vale of y(1) is between -PI and PI.
+4. also I update the RMSE.txt.
+
+
 
 
 

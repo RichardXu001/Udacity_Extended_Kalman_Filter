@@ -70,14 +70,21 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     float rho_dot_;
     float PI = 3.1415926;
     //cout<<"rho is "<<rho_<<endl;
+    phi_=atan2(py,px);
+
+    /*
     if(abs(px)<0.0001){
         phi_=PI/2.0;
     }
     else{
         phi_=atan(py/px);
     }
+
+    */
     //cout<<"original phi is "<<phi_;
     //cout<<"measurement phi is "<<z(1)<<endl;
+
+    /*
     if((z(1)>0.5*PI)&&(abs(z(1)-phi_)>PI/2.0) ){
         phi_ += PI;
         //cout<<"after modify phi is "<<phi_<<endl;
@@ -86,6 +93,8 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
         phi_ -=PI;
         //cout<<"after modify phi is "<<phi_<<endl;
     }
+
+    */
 
     /*
     while ( phi_ < -PI) {
@@ -102,6 +111,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
      */
 
     if (rho_ < 0.0001) {
+        rho_dot_=0.0;
         cout << "Error2" << endl;
     }else{
 
@@ -126,6 +136,12 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
      */
   VectorXd y = z -z_pred;
+  while (y(1)> PI) {
+    y(1)-=2.*PI;
+  }
+  while (y(1)<-PI) {
+    y(1)+=2.*PI;
+  }
   //H_=tools.CalculateJacobian(x_);
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
